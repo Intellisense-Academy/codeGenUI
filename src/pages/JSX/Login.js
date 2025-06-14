@@ -15,33 +15,34 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const theme = createTheme();
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({ username: false, password: false });
+  const [errors, setErrors] = useState({ email: false, password: false });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
   const newErrors = {
-    username: username.trim() === '',
+    email: email.trim() === '',
     password: password.trim() === '',
   };
   setErrors(newErrors);
 
   // If any field has error, don't proceed
-  if (newErrors.username || newErrors.password) {
+  if (newErrors.email || newErrors.password) {
     return;
   }
+        console.log(JSON.stringify({ email, password }));
     try {
       const response = await fetch('http://localhost:8080/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
-      });
+        body: JSON.stringify({ email, password }),
+      });  
       const data = await response.json();
       if (response.status === 200) {
-        localStorage.setItem('username', data.username);
+        localStorage.setItem('email', data.email);
         localStorage.setItem('password', data.password);
         localStorage.setItem('tenant', data.tenant);
         localStorage.setItem('role', data.role);
@@ -84,16 +85,16 @@ const Login = () => {
                   margin="normal"
                   required
                   fullWidth
-                  id="username"
-                  label="Username"
+                  id="email"
+                  label="email"
                   type="text"
-                  name="username"
-                  autoComplete="username"
+                  name="email"
+                  autoComplete="email"
                   autoFocus
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  error={errors.username}
-                  helperText={errors.username ? 'Username is required' : ''}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  error={errors.email}
+                  helperText={errors.email ? 'email is required' : ''}
                 />
                 <TextField
                   margin="normal"

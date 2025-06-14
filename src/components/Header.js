@@ -36,6 +36,9 @@ const Navbar = () => {
         <ListItem button component={Link} to="/dashboard">
           <ListItemText primary="Dashboard" />
         </ListItem>
+        <ListItem button component={Link} to="/dashboard">
+          <ListItemText primary="Asserts" />
+        </ListItem>
         <ListItem button onClick={logout}>
           <ListItemText primary="Logout" />
         </ListItem>
@@ -65,6 +68,9 @@ const Navbar = () => {
             <Box sx={{ display: 'flex', gap: 2 }}>
               <Button component={Link} to="/home" sx={{ color: 'black' }}>
                 Home
+              </Button>
+              <Button component={Link} to="/asserts" sx={{ color: 'black' }}>
+                Asserts
               </Button>
               <Button component={Link} to="/dashboard" sx={{ color: 'black' }}>
                 Dashboard
