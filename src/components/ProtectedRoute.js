@@ -1,11 +1,11 @@
 import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  const username = localStorage.getItem("username");
+  const email = localStorage.getItem("email");
   const tenant = localStorage.getItem("tenant");
   const role = localStorage.getItem("role");
 
-  if (!username || !tenant || !role) {
+  if (!email || !tenant || !role) {
     return <Navigate to="/" replace />; // redirect to login
   }
 

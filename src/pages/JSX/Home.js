@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Box, CssBaseline, Typography } from "@mui/material";
+import { Box, CssBaseline, Typography, useMediaQuery } from "@mui/material";
 import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 import SchemaDetail from "../../components/SchemaDetail";
+import { useTheme } from "@mui/material/styles";
 
 const Home = () => {
   const [selectedSchema, setSelectedSchema] = useState(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // mobile <600px
 
   return (
     <>
@@ -19,7 +22,7 @@ const Home = () => {
             left: 0,
             right: 0,
             height: "60px",
-            zIndex: 1300, // higher than drawer/sidebar
+            zIndex: 1300,
             bgcolor: "background.paper",
             boxShadow: 1,
           }}
@@ -28,20 +31,27 @@ const Home = () => {
         </Box>
 
         {/* Sidebar + Main Content below the header */}
-        <Box sx={{ display: "flex", flexGrow: 1, pt: "60px", height: "100%" }}>
-          {/* Sidebar */}
+        <Box
+          sx={{
+            display: "flex",
+            flexGrow: 1,
+            pt: "60px",
+            height: "100%",
+          }}
+        >
+          {/* Sidebar container */}
           <Box
             sx={{
-              width: "250px",
-              bgcolor: "grey.100",
+              width: isMobile ? "auto" : "250px",
+              bgcolor: isMobile ? "transparent" : "grey.100",
               overflowY: "auto",
-              height: "calc(100vh - 60px)",
-              position: "fixed",
-              top: "60px",
-              left: 0,
-              bottom: 0,
-              zIndex: 1200,
-              boxShadow: 1,
+              height: isMobile ? "auto" : "calc(100vh - 60px)",
+              position: isMobile ? "relative" : "fixed",
+              top: isMobile ? "auto" : "60px",
+              left: isMobile ? "auto" : 0,
+              bottom: isMobile ? "auto" : 0,
+              zIndex: isMobile ? "auto" : 1200,
+              boxShadow: isMobile ? "none" : 1,
             }}
           >
             <Sidebar setSelectedSchema={setSelectedSchema} />
@@ -51,11 +61,12 @@ const Home = () => {
           <Box
             sx={{
               flexGrow: 1,
-              ml: "250px", // to make space for fixed sidebar
+              ml: isMobile ? 0 : "250px",
               p: 3,
               overflowY: "auto",
               height: "calc(100vh - 60px)",
               bgcolor: "#f1f3f6",
+              width: "100%", // always full width available
             }}
           >
             {selectedSchema ? (
@@ -65,7 +76,9 @@ const Home = () => {
                 <Typography variant="h4" gutterBottom>
                   Welcome to the Dashboard
                 </Typography>
-                <Typography>Select an item from the sidebar to view its data.</Typography>
+                <Typography>
+                  Select an item from the sidebar to view its data.
+                </Typography>
               </Box>
             )}
           </Box>
@@ -73,5 +86,5 @@ const Home = () => {
       </Box>
     </>
   );
-}
+};
 export default Home;
